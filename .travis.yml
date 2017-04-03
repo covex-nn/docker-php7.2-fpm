@@ -10,9 +10,10 @@ env:
 
 before_install:
   - docker build -t covex/php7.1-fpm .
+  - docker run -d --name docker-test covex/php7.1-fpm
 
 script:
-  - docker ps -a
+  - docker exec -it docker-test php -m
 
 after_success:
   - if [ "$TRAVIS_BRANCH" == "master" ]; then

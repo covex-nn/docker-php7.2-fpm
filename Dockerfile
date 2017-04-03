@@ -1,9 +1,12 @@
 FROM php:7.1-fpm-alpine
 
-# https://github.com/prooph/docker-files/blob/master/php/7.1-fpm
+RUN apk add --no-cache --virtual .persistent-deps \
+        # for intl extension
+        icu-dev \
+        # for mcrypt extension
+        libmcrypt-dev
 
-# persistent / runtime deps
-ENV PHPIZE_DEPS \
+RUN apk add --no-cache --virtual .build-deps \
         autoconf \
         cmake \
         file \
@@ -12,36 +15,21 @@ ENV PHPIZE_DEPS \
         libc-dev \
         make \
         pkgconf \
-        re2c
+        re2c \
+        openssl-dev
 
-RUN apk add --no-cache --virtual .persistent-deps \
-        # for intl extension
-        icu-dev \
-        # for mcrypt extension
-        libmcrypt-dev \
-        # for gd
-        freetype-dev \
-        libjpeg-turbo-dev \
-        libpng-dev
+#RUN docker-php-ext-configure intl --enable-intl \
+#    && docker-php-ext-configure mbstring --enable-mbstring \
+#    && docker-php-ext-configure pdo_mysql --with-pdo-mysql \
+#    && docker-php-ext-install \
 
-RUN set -xe \
-    && apk add --no-cache --virtual .build-deps \
-        $PHPIZE_DEPS \
-        openssl-dev \
-    && docker-php-ext-configure bcmath --enable-bcmath \
-    && docker-php-ext-configure intl --enable-intl \
-    && docker-php-ext-configure pcntl --enable-pcntl \
-    && docker-php-ext-configure pdo_mysql --with-pdo-mysql \
-    && docker-php-ext-configure mbstring --enable-mbstring \
-    && docker-php-ext-configure gd --with-freetype-dir=/usr/include/ --with-jpeg-dir=/usr/include/ \
-    && docker-php-ext-install \
-        bcmath \
+# RUN docker-php-ext-install gd
+
+RUN docker-php-ext-install \
         intl \
-        mcrypt \
-        pcntl \
-        pdo_mysql \
         mbstring \
-        gd \
+        mcrypt \
+        pdo_mysql \
         zip \
         opcache
 
