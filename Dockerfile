@@ -39,6 +39,4 @@ COPY sync-vendor.php /home/docker/sync-vendor.php
 RUN chmod 744 /home/docker/sync-vendor.php \
     && chown -R docker:docker /home/docker
 
-USER docker
-WORKDIR /home/docker
 VOLUME [ "/home/docker/.composer" ]
