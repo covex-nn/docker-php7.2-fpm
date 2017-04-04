@@ -36,7 +36,10 @@ RUN adduser -h /home/docker -D docker \
     && composer config --global vendor-dir /home/docker/vendor
 
 COPY sync-vendor.php /home/docker/sync-vendor.php
+COPY xdebug.ini /usr/local/etc/php/conf.d/docker-php-ext-xdebug.ini
+
 RUN chmod 744 /home/docker/sync-vendor.php \
+    chmod 644 /usr/local/etc/php/conf.d/docker-php-ext-xdebug.ini \
     && chown -R docker:docker /home/docker
 
 VOLUME [ "/home/docker/.composer" ]
