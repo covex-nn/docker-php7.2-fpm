@@ -21,7 +21,8 @@ RUN apk add --no-cache \
         mcrypt \
         pdo_mysql \
         zip \
-        opcache
+        opcache \
+    && pecl install xdebug
 
 RUN curl -sS https://getcomposer.org/installer | php -- \
       --install-dir=/usr/local/bin \
