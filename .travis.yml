@@ -3,20 +3,9 @@ sudo: required
 services:
   - docker
 
-env:
-    global:
-      - secure: Ywlt75SAtIEprQtiIBE9CPHzZRguj1Q+pkvtdEZrlqjC0IzwZM3a/n6Ir1rBX33opT4bOZC6m6K16pXjqGSqQs64ttLk2QDQ5WFS3ld17ElOgTq1zvACavSEZHo1NlXbRbPfemLezD//IKsH1t2c2Ak1Ookd3CLnfGr9ZCL+cPj5ymUvozbis3BIwOhNbxlDyUy3GIHJ8W5jbi38c1X+YGRfTH2L/MXSh0uwSrVvPYYNs/FjQZvvP+1qxWE37CXqMtWxArjcE40ffLjBRFabeiQ1ggwDDA9hH0uNALhXESu5njWP9PEHsX5aP29eIjONCwyklP8cpCl0b+Wxb//2n+sphptSt8yALShZMYc6Yzg4p9C5D5CpPcfDLf12YLoCymW9c2wYNuYohOBY/wJPIoVWwOYeMBtBbMSNJMXPvEz41ktwUN5mUqCiRp4dCM22g/y0RKfqS0VdeR2VEXDjCYpK/jYxaXR9fBoAPQnSREcahayu5OGTm0Dy3Pq0XQ4JBD7VMBNmIi/tov2oHQY2cb9+pKHIybGaqKI1yfJt/+81U5/YJjE19PLwLDCFVCkjTLeiuDZv88/yjPVbcaPmxO9cDs98VH1V+8QZm2qurr0r9MiUryAGtzGHXOtBMnMI9iPhkic2NfEYD47sWndqVz/NxAw+XuslqiGqgfsj2XA=
-      - secure: YryPIntJ3NAWcUB/QXCHkWE6b5E6NfOxKHzOxWhdA9K6hGX5KbWiM4YVxSI8JfpMzEB2HqMc0VLwFlzU4hEJEE3nY0e40vvIUOUywOcuxcDfBofhkHxnIJcpzgYL/sYmrt4VWTQCntyxW/Pj8KS1y/BmDWbnmaIUqyp4tO8Wt/YXYPCLXH4I6uIXyLv3LpiquZIRjlZCQXrLkEo9wbKxyBZu7ijZHLjvKiG9gbqYo94ozSLw5ZMUEIw7ysuoQynuyM2rAS3Wn16rylxUbU2aINI7eFDl4jbwIUoClayq15+ysLqHLvad1/1/cx6366rjCuE/S9OLFFCIcIxZfyXv4d19Yl+5TlcspCbONKAJmtAaU6YAg19vdTYGZj4UUEMiVOZXiRC+qBwFMvEYR7Qm1NdUh0lN/ORvQqZCcyGdPzXCKOIExJwnptD/0sqpYE7r6euAFBXnAs/Nq0QARcYLzEWwnRC+etBK9gZDCibT7cJrk1rCPVw6QZmPaY4QxEbjRNOLM2dEub9Cd60+32G40pulxbkD+bJsL9X8rjjmGZUbzNkLayJOE+nSg5x/HxRjCKdDIJulmOa+gDV/j8912Bq/mob+YUqLHriQm7zhP1/X2JE31Y3teSGUTQVao3DckdMo14do3tUzNaY9zT6XE4q9Mq4HzWyWju17U/qjCuQ=
-
 before_install:
   - docker build -t covex/php7.1-fpm .
   - docker run -d --name docker-test covex/php7.1-fpm
 
 script:
   - docker exec -it docker-test php -m
-
-after_success:
-  - if [ "$TRAVIS_BRANCH" == "master" ]; then
-        docker login -u="$DOCKER_USERNAME" -p="$DOCKER_PASSWORD";
-        docker push covex/php7.1-fpm;
-    fi
