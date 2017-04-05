@@ -33,10 +33,10 @@ ENV COMPOSER_HOME /composer/home
 RUN curl -sS https://getcomposer.org/installer | php -- \
       --install-dir=/usr/local/bin \
       --filename=composer \
+    && composer global require phing/phing ~2.0 \
     && mkdir /composer/vendor \
     && echo "{ }" > /composer/home/config.json \
-    && composer config --global vendor-dir /composer/vendor \
-    && composer global require phing/phing ~2.0
+    && composer config --global vendor-dir /composer/vendor
 
 COPY sync-vendor.php /composer/sync-vendor.php
 
