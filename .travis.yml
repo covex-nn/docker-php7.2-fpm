@@ -14,7 +14,7 @@ before_install:
 
 script:
   - docker exec -it docker-test php -m
-  - composer global show
+  - docker exec -it docker-test composer global show
 
 after_success:
   - if [ "$TRAVIS_BRANCH" == "master" ]; then
