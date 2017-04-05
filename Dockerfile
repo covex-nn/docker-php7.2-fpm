@@ -35,11 +35,13 @@ RUN curl -sS https://getcomposer.org/installer | php -- \
       --filename=composer \
     && mkdir /composer/vendor \
     && echo "{ }" > /composer/home/config.json \
-    && composer config --global vendor-dir /composer/vendor
+    && composer config --global vendor-dir /composer/vendor \
+    && composer global require phing/phing ~2.0
 
 COPY sync-vendor.php /composer/sync-vendor.php
 
-RUN chmod 744 /composer/sync-vendor.php \
+RUN apk add --no-cache sudo \
+    && chmod 744 /composer/sync-vendor.php \
     && chmod 644 /usr/local/etc/php/conf.d/docker-php-ext-xdebug.ini
 
 VOLUME [ "/composer/home/cache" ]
