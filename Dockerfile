@@ -24,22 +24,22 @@ RUN apk add --no-cache \
         opcache \
     && pecl install xdebug
 
-RUN curl -sS https://getcomposer.org/installer | php -- \
-      --install-dir=/usr/local/bin \
-      --filename=composer
-
-RUN adduser -h /home/docker -D docker \
-    && mkdir /home/docker/vendor \
-    && mkdir /home/docker/.composer \
-    && echo "{ }" > /home/docker/.composer/config.json \
-    && composer config --file=/home/docker/.composer/config.json vendor-dir /home/docker/vendor \
-    && composer config --global vendor-dir /home/docker/vendor
-
-COPY sync-vendor.php /home/docker/sync-vendor.php
 COPY xdebug.ini /usr/local/etc/php/conf.d/docker-php-ext-xdebug.ini
 
-RUN chmod 744 /home/docker/sync-vendor.php \
-    && chmod 644 /usr/local/etc/php/conf.d/docker-php-ext-xdebug.ini \
-    && chown -R docker:docker /home/docker
+ENV PATH "/composer/vendor/bin:/composer/home/vendor/bin:$PATH"
+ENV COMPOSER_ALLOW_SUPERUSER 1
+ENV COMPOSER_HOME /composer/home
 
-VOLUME [ "/home/docker/.composer" ]
+RUN curl -sS https://getcomposer.org/installer | php -- \
+      --install-dir=/usr/local/bin \
+      --filename=composer \
+    && mkdir /composer/vendor \
+    && echo "{ }" > /composer/home/config.json \
+    && composer config --global vendor-dir /composer/vendor
+
+COPY sync-vendor.php /composer/sync-vendor.php
+
+RUN chmod 744 /composer/sync-vendor.php \
+    && chmod 644 /usr/local/etc/php/conf.d/docker-php-ext-xdebug.ini
+
+VOLUME [ "/composer/home/cache" ]

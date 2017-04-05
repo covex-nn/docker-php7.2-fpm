@@ -1,14 +1,14 @@
 #!/usr/local/bin/php -dphar.readonly=0
 <?php
 
-$source = '/home/docker/vendor';
-$target = '/var/www/.sync';
+$source = '/composer/vendor';
+$target = '/srv/.sync';
 
 if (is_file($target) && !is_dir($target)) {
   unlink($target);
 }
 if (!file_exists($target)) {
-  mkdir($target);
+  mkdir($target, true);
 }
 if (file_exists($source) && is_dir($source)) {
   foreach (new DirectoryIterator($source) as $dir) {
