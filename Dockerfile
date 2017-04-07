@@ -38,10 +38,11 @@ RUN curl -sS https://getcomposer.org/installer | php -- \
     && echo "{ }" > /composer/home/config.json \
     && composer config --global vendor-dir /composer/vendor
 
-COPY sync-vendor.php /composer/sync-vendor.php
+COPY sync-vendor.php /usr/local/bin/sync-vendor
 
-RUN apk add --no-cache sudo \
-    && chmod 744 /composer/sync-vendor.php \
-    && chmod 644 /usr/local/etc/php/conf.d/docker-php-ext-xdebug.ini
+RUN apk add --no-cache sudo acl \
+    && chmod 744 /usr/local/bin/sync-vendor \
+    && chmod 644 /usr/local/etc/php/conf.d/docker-php-ext-xdebug.ini \
+    && rm /tmp/* -rf
 
 VOLUME [ "/composer/home/cache" ]
