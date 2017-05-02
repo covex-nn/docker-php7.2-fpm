@@ -45,4 +45,4 @@ RUN apk add --no-cache sudo acl \
     && chmod 644 /usr/local/etc/php/conf.d/docker-php-ext-xdebug.ini \
     && rm /tmp/* -rf
 
-VOLUME [ "/composer/home/cache" ]
+VOLUME [ "/composer" ]
