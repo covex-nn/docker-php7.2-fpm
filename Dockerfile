@@ -1,6 +1,6 @@
 FROM php:7.1-fpm-alpine
 
-RUN apk add --no-cache --virtual .build-deps \
+RUN apk add --no-cache \
         autoconf \
         cmake \
         file \
@@ -10,11 +10,12 @@ RUN apk add --no-cache --virtual .build-deps \
         make \
         pkgconf \
         re2c \
-        openssl-dev
-
-RUN apk add --no-cache \
+        openssl-dev \
         icu-dev \
         libmcrypt-dev \
+        dcron \
+        sudo \
+        acl \
     && docker-php-ext-install \
         intl \
         mbstring \
@@ -22,9 +23,11 @@ RUN apk add --no-cache \
         pdo_mysql \
         zip \
         opcache \
-    && pecl install xdebug
+    && pecl install xdebug \
+    && rm /tmp/* -rf
 
 COPY xdebug.ini /usr/local/etc/php/conf.d/docker-php-ext-xdebug.ini
+COPY sync-vendor.php /usr/local/bin/sync-vendor
 
 ENV PATH "/composer/vendor/bin:/composer/home/vendor/bin:$PATH"
 ENV COMPOSER_ALLOW_SUPERUSER 1
@@ -36,13 +39,8 @@ RUN curl -sS https://getcomposer.org/installer | php -- \
     && composer global require phing/phing ~2.0 \
     && mkdir /composer/vendor \
     && echo "{ }" > /composer/home/config.json \
-    && composer config --global vendor-dir /composer/vendor
-
-COPY sync-vendor.php /usr/local/bin/sync-vendor
-
-RUN apk add --no-cache sudo acl \
+    && composer config --global vendor-dir /composer/vendor \
     && chmod 744 /usr/local/bin/sync-vendor \
-    && chmod 644 /usr/local/etc/php/conf.d/docker-php-ext-xdebug.ini \
-    && rm /tmp/* -rf
+    && chmod 644 /usr/local/etc/php/conf.d/docker-php-ext-xdebug.ini
 
 VOLUME [ "/composer/home/cache" ]
