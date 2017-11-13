@@ -37,6 +37,7 @@ RUN curl -sS https://getcomposer.org/installer | php -- \
       --install-dir=/usr/local/bin \
       --filename=composer \
     && composer global require phing/phing ~2.0 \
+    && rm -rf $COMPOSER_HOME/cache/* \
     && mkdir /composer/vendor \
     && echo "{ }" > /composer/home/config.json \
     && composer config --global vendor-dir /composer/vendor \
