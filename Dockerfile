@@ -39,8 +39,6 @@ RUN curl -sS https://getcomposer.org/installer | php -- \
     && composer global require phing/phing ~2.0 \
     && rm -rf $COMPOSER_HOME/cache/* \
     && mkdir /composer/vendor \
-    && echo "{ }" > /composer/home/config.json \
-    && composer config --global vendor-dir /composer/vendor \
     && chmod 744 /usr/local/bin/sync-vendor \
     && chmod 644 /usr/local/etc/php/conf.d/docker-php-ext-xdebug.ini
 
