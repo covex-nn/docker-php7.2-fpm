@@ -13,6 +13,7 @@ stages:
       - docker:dind
     only:
       - latest
+      - master
       - /^\d+(\.\d{1,2})?$/
     tags:
       - docker

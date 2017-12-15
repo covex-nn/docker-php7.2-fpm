@@ -6,7 +6,6 @@ PHP-FPM with composer
 Inside image
 ------------
 
-* extensions `intl`, `mbstring`, `mcrypt`, `pdo_mysql`, `zip`, `opcache`
+* extensions `intl`, `mbstring`, `opcache`, `pdo_mysql`, `zip`, `gd` (optional),
 * `xdebug` configured and disabled
-* `composer` with special `vendor-dir` configuration
-* `phing` installed via `composer global`
+* `phing` as a build tool
