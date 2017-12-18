@@ -12,6 +12,7 @@ ENV COMPOSER_HOME /composer/home
 RUN apt-get update && apt-get install -y \
             libicu-dev \
             zlib1g-dev \
+            acl \
 		    cron \
 		    netcat \
     && docker-php-ext-install -j$(nproc) \
