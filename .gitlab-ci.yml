@@ -34,9 +34,9 @@ test:docker-image:
     script:
       - docker pull $CI_REGISTRY_IMAGE_WITH_TAG
       - docker run -d --name=php $CI_REGISTRY_IMAGE_WITH_TAG
-      - docker exec -it php bash -c "curl -h"
-      - docker exec -it php bash -c "setfacl -h"
-      - docker exec -it php bash -c "nc -h"
+      - docker exec -i php bash -c "curl -h"
+      - docker exec -i php bash -c "setfacl -h"
+      - docker exec -i php bash -c "nc -h"
 
 deploy:docker-image:
     <<: *docker-stage
