@@ -1,4 +1,4 @@
-FROM php:7.1-fpm-jessie
+FROM php:7.2-fpm-stretch
 
 ARG with_gd=0
 
