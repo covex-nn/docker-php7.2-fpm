@@ -16,6 +16,7 @@ RUN apt-get update && apt-get install -y \
 		    cron \
 		    netcat \
     && docker-php-ext-install -j$(nproc) \
+            bcmath \
             intl \
             opcache \
             pdo_mysql \
@@ -30,7 +31,7 @@ RUN apt-get update && apt-get install -y \
                     --with-jpeg-dir=/usr/include/ \
                 && docker-php-ext-install -j$(nproc) gd ; \
         fi \
-    && pecl install xdebug-beta \
+    && pecl install xdebug \
     && curl -sS https://getcomposer.org/installer | php -- \
              --install-dir=/usr/local/bin \
              --filename=composer \
