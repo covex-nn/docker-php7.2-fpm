@@ -1,7 +1,5 @@
 FROM php:7.2-fpm-stretch
 
-ARG with_gd=0
-
 COPY xdebug.ini /usr/local/etc/php/conf.d/docker-php-ext-xdebug.ini
 COPY sync-vendor.php /usr/local/bin/sync-vendor
 
@@ -16,21 +14,10 @@ RUN apt-get update && apt-get install -y \
 		    cron \
 		    netcat \
     && docker-php-ext-install -j$(nproc) \
-            bcmath \
             intl \
             opcache \
             pdo_mysql \
             zip \
-    && if "$with_gd" == "1" ; then \
-            apt-get install -y --no-install-recommends \
-        		    libfreetype6-dev \
-        		    libjpeg62-turbo-dev \
-        		    libpng-dev \
-                && docker-php-ext-configure gd \
-                    --with-freetype-dir=/usr/include/ \
-                    --with-jpeg-dir=/usr/include/ \
-                && docker-php-ext-install -j$(nproc) gd ; \
-        fi \
     && pecl install xdebug \
     && curl -sS https://getcomposer.org/installer | php -- \
              --install-dir=/usr/local/bin \
